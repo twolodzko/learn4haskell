@@ -479,7 +479,7 @@ Implement a function that returns the last digit of a given number.
   whether it works for you!
 -}
 
-lastDigit :: Integer -> Integer
+lastDigit :: Int -> Int
 lastDigit n | n < 0 = lastDigit (-n)
 lastDigit n = mod n 10
 
@@ -659,7 +659,7 @@ You need to use recursion in this task. Feel free to return to it later, if you
 aren't ready for this boss yet!
 -}
 
-firstDigit :: Integer -> Integer
+firstDigit :: Int -> Int
 firstDigit n
   | n < 0 = firstDigit (-n)
   | n < 10 = n
