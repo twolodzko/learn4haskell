@@ -344,6 +344,12 @@ of a book, but you are not limited only by the book properties we described.
 Create your own book type of your dreams!
 -}
 
+data Book = MakeBook {
+    title :: String,
+    author :: String,
+    numberOfPages :: Int
+  } deriving (Show)
+
 {- |
 =⚔️= Task 2
 
@@ -460,6 +466,13 @@ Create a simple enumeration for the meal types (e.g. breakfast). The one who
 comes up with the most number of names wins the challenge. Use your creativity!
 -}
 
+data Meal
+    = Breakfast
+    | Lunch
+    | Dinner
+    | Dessert
+    | Supper
+
 {- |
 =⚔️= Task 4
 
@@ -479,6 +492,42 @@ After defining the city, implement the following functions:
    complicated task, walls can be built only if the city has a castle
    and at least 10 living __people__ inside in all houses of the city totally.
 -}
+
+data City = MakeCity {
+  castle :: MaybeCastle,
+  hasWalls :: Bool,
+  specialBuilding :: SpecialBuilding,
+  houses :: [House]
+} deriving (Show)
+
+data MaybeCastle = None | Castle String deriving (Show)
+
+data SpecialBuilding = Church | Library deriving (Show)
+
+data House = House Int deriving (Show)
+
+buildCastle :: City -> String -> City
+buildCastle city name =
+  city { castle = Castle name }
+
+buildHouse :: City -> House -> City
+buildHouse city house =
+  city { houses = house : houses city }
+
+numberCitizens :: City -> Int
+numberCitizens city =
+  foldl (+) 0 (map (\(House n) -> n) (houses city))
+
+hasCastle :: City -> Bool
+hasCastle city = case castle city of
+  (Castle _) -> True
+  None -> False
+
+buildWalls :: City -> City
+buildWalls city =
+  if (hasCastle city) && ((numberCitizens city) > 10)
+  then city { hasWalls = True }
+  else error "Cannot build walls"
 
 {-
 =🛡= Newtypes
