@@ -337,6 +337,7 @@ ghci> :l src/Chapter2.hs
 -}
 
 subList :: Int -> Int -> [a] -> [a]
+subList _ _ [] = []
 subList i j lst@(x:xs)
   | (length lst) < i = []
   | i > j     = []
@@ -356,11 +357,14 @@ Implement a function that returns only the first half of a given list.
 -}
 
 firstHalf :: [a] -> [a]
+firstHalf [] = []
 firstHalf (x:xs) = let
-  split left right@(x:xs) =
-    if (length left) < (length xs)
-    then split (x : left) xs
-    else reverse left
+    split _ [] = []
+    split [] _ = []
+    split left (x:xs) =
+      if (length left) < (length xs)
+      then split (x : left) xs
+      else reverse left
   in split [x] xs
 
 {- |
@@ -762,11 +766,11 @@ the list with only those lists that contain a passed element.
 -}
 
 contains :: Eq a => a -> [[a]] -> [[a]]
-contains a [] = []
-contains a (x:xs) =
-  if elem a x
-    then x : contains a xs
-    else contains a xs
+contains _ [] = []
+contains el (x:xs) =
+  if elem el x
+    then x : contains el xs
+    else contains el xs
 
 {- |
 =🛡= Eta-reduction
@@ -871,9 +875,9 @@ list.
 rotate :: Int -> [a] -> [a]
 rotate n _ | n < 0 = []
 rotate n lst = let
-  skip n all@(x:xs)
-    | n == 0    = all
-    | otherwise = skip (n - 1) xs
+    skip _ [] = []
+    skip n lst | n == 0 = lst
+    skip n (_:xs) = skip (n - 1) xs
   in take (length lst) (skip n (cycle lst))
 
 {- |
