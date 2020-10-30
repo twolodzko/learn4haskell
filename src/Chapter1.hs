@@ -632,8 +632,11 @@ Try to introduce variables in this task (either with let-in or where) to avoid
 specifying complex expressions.
 -}
 
-sumLast2 n = error "sumLast2: Not implemented!"
-
+sumLast2 :: Int -> Int
+sumLast2 n = let
+  x = mod n 10
+  y = mod n 100
+  in x + y
 
 {- |
 =💣= Task 10*
@@ -653,8 +656,11 @@ You need to use recursion in this task. Feel free to return to it later, if you
 aren't ready for this boss yet!
 -}
 
-firstDigit n = error "firstDigit: Not implemented!"
-
+firstDigit :: Int -> Int
+firstDigit n
+  | n < 0 = firstDigit (-n)
+  | n < 10 = n
+  | otherwise = firstDigit $ n `div` 10
 
 {-
 You did it! Now it is time to the open pull request with your changes
